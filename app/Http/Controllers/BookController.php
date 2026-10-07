@@ -12,7 +12,7 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::paginate(10);
+        $books = Book::with('category')->paginate(10);
 
         return view('books.index', compact('books'));
     }
@@ -29,14 +29,14 @@ class BookController extends Controller
         $validated = $request->validated();
 
         Book::create($validated);
-        
+
         return redirect()->route('books.index')
-        ->with('success', "Buku \"{$validated['judul']}\" berhasil ditambahkan.");
+            ->with('success', "Buku \"{$validated['judul']}\" berhasil ditambahkan.");
     }
 
     public function show(string $id)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::with('category')->findOrFail($id);
 
 
         return view('books.show', compact('book'));
@@ -59,7 +59,7 @@ class BookController extends Controller
             'judul' => 'required|string|max:200',
             'penulis' => 'required|string|max:100',
             'penerbit' => 'required|string|max:100',
-            'tahun_terbit' => 'required|integer|min:1900|max:'.date('Y'),
+            'tahun_terbit' => 'required|integer|min:1900|max:' . date('Y'),
             'isbn' => 'nullable|string|max:20',
             'stok' => 'required|integer|min:0',
             'category_id' => 'required|integer|exists:categories,id',
