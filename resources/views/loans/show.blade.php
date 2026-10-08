@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Detail Peminjaman</title>
     <style>
-        body { font-family: sans-serif; margin: 40px; max-width: 600px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
-        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
-        .info th { width: 160px; background: #f3f4f6; }
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            max-width: 600px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .info th {
+            width: 160px;
+            background: #f3f4f6;
+        }
+
+        .badge-dipinjam {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-dikembalikan {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-terlambat {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Detail Peminjaman</h1>
     <p><a href="{{ route('loans.index') }}">&larr; Kembali ke daftar peminjaman</a></p>
@@ -37,7 +79,7 @@
         </tr>
         <tr>
             <th>Status</th>
-            <td>{{ ucfirst($loan['status']) }}</td>
+            <td><span class="badge-{{ $loan['status'] }}">{{ ucfirst($loan['status']) }}</span></td>
         </tr>
     </table>
 
@@ -51,13 +93,13 @@
         </thead>
         <tbody>
             @foreach ($loan['loanItems'] as $item)
-                <tr>
-                    <td>{{ $item['book']['judul'] }}</td>
-                    <td>{{ $item['book']['penulis'] }}</td>
-                </tr>
+            <tr>
+                <td>{{ $item['book']['judul'] }}</td>
+                <td>{{ $item['book']['penulis'] }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
 </body>
-</html>
 
+</html>
